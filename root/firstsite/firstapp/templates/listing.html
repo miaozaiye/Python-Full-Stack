@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>huoyan</title>
+    <link rel="stylesheet" href={% static "CSS/semantic.css" %} media="screen" title="no title" charset = "utf-8">
+      <link rel="stylesheet" href={% static "huoyan_homepage.css" %} media="screen" title="no title" charset = "utf-8">
+</head>
+
+<body>
+<!-- navigation bar -->
+    <div class="ui red padded inverted vertical segment" style="height:80px">
+        <div class="ui padded text menu" style="margin-top:0px;height:40px">
+<!-- LOGO -->
+            <div class="ui image" style="margin-top:-7px;margin-left:20px">
+                <a href="http://127.0.0.1:8000/list/">
+                    <img src={% static "huoyanlogo.png"%} alt="" >
+                </a>
+            </div>
+<!-- search area -->
+            <div class="ui icon input" style="width:40%;margin-left:20px">
+                <input type="text" placeholder="搜索骗局">
+                <i class="inverted circular search link icon"></i>
+            </div>
+<!-- User information -->
+            <div class="ui red inverted right float menu" >
+                {% if request.user.is_authenticated %}
+                    <div class="item">
+                        <h5 class="ui inverted header">
+                            <span style="margin-right:20px">{{ request.user.username }}</span>
+                            <div class="ui mini circular image">
+                                {% if request.user.profile.profile_image %}
+                                    <img src="/upload/{{ request.user.profile.profile_image }}" alt="">
+                                {% else %}
+                                    <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg" alt="">
+                                {% endif %}
+                            </div>
+                            <a href="/register">
+                                <span style="margin-right:20px;margin-left:20px">登出</span>
+                            </a>
+
+                        </h5>
+
+                    </div>
+
+                {% else %}
+                     <div class="item" class = "ui rounded item">
+                     <a href="http://127.0.0.1:8000/login/">
+                        <h5 class="ui inverted header">
+                            <span style="margin-right:20px;color:white">登录/注册</span>
+
+                        </h5>
+                     </a>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- content part -->
+
+<div class="ui vertical segment content">
+
+{#增加排序筛选#}
+
+<div class="ui secondary pointing menu">
+
+     {% if 'editorschoice' in request.path %}
+        <a class="active item" href="/list/大学生">大学生 </a>
+    {% else %}
+        <a class="item" href="/list/大学生">大学生 </a>
+    {% endif %}
+
+
+    <a class="item" href = "?pubdate=1">发布时间 </a>
+    {% if 'editorschoice' in request.path %}
+        <a class=" active item" href="/list/editorschoice">Editor's Choice </a>
+    {% else %}
+        <a class=" item" href="/list/editorschoice">Editor's Choice </a>
+    {% endif %}
+
+</div>
+<!-- main-content -->
+
+    <div class="ui vertical segment piece" style="border:white">
+        <div class="ui feed">
+<!-- event -->
+
+            {% for article in article_list %}
+            <div class="event">
+
+
+
+            <form class = "ui form" action = "" method="post">
+                {% csrf_token %}
+
+                {% if user_ticket.choice == 'like' %}
+                      <button class="ui red tiny button" type="submit" name = "vote" value = "normal" style="width: 40px;height:30px; ">
+                        <i class="big caret up icon" style="color:white;margin:0"></i>
+
+                    </button>
+
+                    <button class="ui tiny button" type="submit" name = "vote" value = "dislike" style="width: 40px;height:30px; ">
+                     <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px"></i>
+
+                    </button>
+                {% elif user_ticket.choice == 'dislike'%}
+                    <button class="ui tiny button" type="submit" name = "vote" value = "like" style="width: 40px;height:30px; ">
+                        <i class="big caret up icon" style="color:white;margin:0"></i>
+
+                    </button>
+
+                    <button class="ui red tiny button" type="submit" name = "vote" value = "normal" style="width: 40px;height:30px; ">
+                     <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px"></i>
+
+                    </button>
+
+                {% else %}
+                    <button class="ui tiny button" type="submit" name = "vote" value = "like" style="width: 40px;height:30px; ">
+                        <i class="big caret up icon" style="color:white;margin:0"></i>
+
+                    </button>
+
+                    <button class="ui tiny button" type="submit" name = "vote" value = "dislike" style="width: 40px;height:30px; ">
+                     <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px"></i>
+
+                    </button>
+                {% endif %}
+
+
+
+
+                <div class="label">
+                    <i class="ui inverted red label" > <h3 class="ui inverted header">20</h3></i>
+                </div>
+
+
+
+                </form>
+                <div class="content" style="margin-left:30px">
+
+                <div class="date">{{ article.pub_date }}</div>
+
+
+                <div class="ui text menu">
+
+                    <h4 class="ui header" style="margin:5px 0;width:300px">
+                        <a href="{% url 'detail' article.headline_2 %}">{{ article.headline}}</a>
+                    </h4>
+
+
+                      <div class="ui labels" style="margin-left:10px">
+                          <a class="ui label" style="margin:0;font-size:1px" href="?tag={{ article.tag }}">{{ article.tag }} </a>
+
+                      </div>
+
+                  </div>
+
+                    <div class="extra text">
+{#                        {% if Article.cover %}#}
+
+                            <img src="/upload/{{article.cover }}" alt="" style="height:100px;object-fit: cover; ">
+
+
+{#                        {% endif %}#}
+                            <p> {{ article.content|slice:'100'}}<span style="color:silver">
+
+                                <a href="{% url 'detail' article.headline_2 %}"> >>readmore </a>
+                            </span></p>
+
+
+
+                    </div>
+
+                  <div class="ui text menu">
+                      <div class="ui grid" style="margin-left:-1px">
+                          <div class="ui eight wide column">
+
+                              <i class="user icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">{{ article.watchnumber }}</span></i>
+                          </div>
+                          <div class="ui eight wide column">
+                            <i class="heart icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">200</span></i>
+                          </div>
+                      </div>
+
+
+                  </div>
+
+              </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{#<h4 class="ui horizontal divider header"><i class="tag icon"></i> 上次看到这 </h4>#}
+
+<div class = "ui center aligned very padded vertical segment container">
+    <div class = "ui pagination menu">
+        {% if article_list.has_previous %}
+            <a href = "?page={{ article_list.previous_page_number }}" class="item"><i class="icon red left arrow"></i></a>
+        {% else %}
+            <a href = "?page={{ article_list.start_index }}" class="disabled item"><i class="icon left arrow"></i></a>
+        {% endif %}
+
+        {% for num in page_robot.page_range %}
+             <a href = "?page={{num}}" class="item">{{ num }}</a>
+        {% endfor %}
+        {% if article_list.has_next %}
+            <a href = "?page={{ article_list.next_page_number }}" class="item"><i class="icon red right arrow"></i></a>
+        {% else %}
+            <a href = "?page={{ article_list.end_index }}" class="disabled item"><i class="icon right arrow"></i></a>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- right rail -->
+  <div class="ui right internal rail biaoqian">
+
+      <div class="ui vertical segment" style="width:200px">
+          <h3 class="ui header">热门标签</h3>
+          {% for tag in tag_list %}
+          <i class="ui label">{{ tag.name}} <i class="detail">214</i></i>
+          {% endfor %}
+          <div class="ui divider"></div>
+          <h3 class="ui header">热门话题</h3>
+          {% for topic in topic_list %}
+
+          <h5 class="ui sub header">{{ topic.name }}</h5>
+          {% endfor %}
+
+      </div>
+  </div>
+</div>
+
+<!-- pager -->
+
+
+
+
+</body>
+
+</html>

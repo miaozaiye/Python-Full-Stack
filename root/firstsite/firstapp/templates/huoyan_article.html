@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>huoyan</title>
+    <link rel="stylesheet" href={% static "CSS/semantic.css" %} media="screen" title="no title" charset = "utf-8">
+      <link rel="stylesheet" href={% static "huoyan_homepage.css" %} media="screen" title="no title" charset = "utf-8">
+</head>
+
+<body>
+<!-- navigation bar -->
+    <div class="ui red padded inverted vertical segment" style="height:80px">
+        <div class="ui padded text menu" style="margin-top:0px;height:40px">
+<!-- LOGO -->
+            <div class="ui image" style="margin-top:-7px;margin-left:20px" >
+                <a href="http://127.0.0.1:8000/index">
+                    <img src={% static "huoyanlogo.png" %} alt="" >
+                </a>
+            </div>
+<!-- search area -->
+            <div class="ui icon input" style="width:40%;margin-left:20px">
+                <input type="text" placeholder="搜索骗局">
+                <i class="inverted circular search link icon"></i>
+            </div>
+<!-- User information -->
+            <div class="ui red inverted right float menu" >
+                <button class="circular red ui icon button" style="margin-right:20px">
+                    <i class="big icon settings"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- content part -->
+
+<div class="ui vertical segment content">
+
+<!-- main-content -->
+
+    <div class="ui vertical segment piece" style="border:white">
+        <div class="ui feed">
+<!-- event -->
+
+            <div class="event">
+
+                <div class="button">
+                    <i class="huge caret up icon" style="color:white;margin:0"></i></i>
+                    <i class="ui inverted red label" > <h3 class="ui inverted header">20</h3></i>
+                </div>
+                <div class="content" style="margin-left:30px">
+
+                    <div class="date">{{ article.pub_date }}</div>
+
+                    <div class="ui text menu">
+
+                    <h4 class="ui header" style="margin:5px 0;width:300px">{{ article.headline }}</h4>
+
+
+                      <div class="ui labels" style="margin-left:10px">
+
+                          <a class="ui label" style="margin:0;font-size:1px">电话诈骗 </a>
+                          <a class="ui label" style="margin:0;font-size:2px">学生 </a>
+                          <a class="ui label" style="margin:0;font-size:2px">信用卡 </a>
+                      </div>
+
+                  </div>
+
+                    <div class="extra text">
+                      <p> {{ article.content }}</p>
+                    </div>
+
+                  <div class="ui text menu">
+                      <div class="ui grid" style="margin-left:-1px">
+                          <div class="ui eight wide column">
+
+                              <i class="user icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">200</span></i>
+                          </div>
+                          <div class="ui eight wide column">
+                            <i class="heart icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">200</span></i>
+                          </div>
+                      </div>
+              <div class="right floated menu">
+              <form class = "ui form" action = "{% url 'detail_vote' article.headline_2 %}" method="post">
+                {% csrf_token %}
+
+                {% if user_ticket.choice == 'like' %}
+
+                      <button class="ui red tiny button" type="submit" name = "vote" value = "normal"  >
+
+                          <i class="big caret up icon" style="color:white;margin-left:0"></i>
+
+
+                      </button>
+
+
+                      <button class="ui tiny button" type="submit" name = "vote" value = "dislike" >
+                         <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px"></i>
+
+
+                      </button>
+
+                {% elif user_ticket.choice == 'dislike'%}
+
+                    <button class="ui tiny button" type="submit" name = "vote" value = "like" style="width: 40px;height:30px; ">
+                        <i class="big caret up icon" style="color:white;margin:0">UP!</i>
+
+                    </button>
+
+
+
+                    <button class="ui red tiny button" type="submit" name = "vote" value = "normal" style="width: 40px;height:30px; ">
+                     <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px">DOWN!</i>
+
+                    </button>
+
+
+                {% else %}
+                    <button class="ui tiny button" type="submit" name = "vote" value = "like" style="width: 40px;height:30px; ">
+                        <i class="big caret up icon" style="color:white;margin:0"></i>
+
+                    </button>
+
+                    <button class="ui tiny button" type="submit" name = "vote" value = "dislike" style="width: 40px;height:30px; ">
+                     <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px"></i>
+
+                    </button>
+                {% endif %}
+
+              </form>
+
+          </div>
+
+
+                  </div>
+
+              </div>
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+<div class="ui threaded comments">
+  <h3 class="ui dividing header">评论</h3>
+    {% if best_comment %}
+
+        <div class="ui left red ribbon label">
+            <i class="fire icon">
+                BEST
+            </i>
+        </div>
+
+        <div class="best comment">
+            <a class="avatar">
+                <img src="http://semantic-ui.com/images/avatar/small/matt.jpg">
+            </a>
+            <div class="content">
+                  <a href="#" class="author">{{ best_comment.name }}</a>
+                  <div class="metadata">
+                        <span class="date">{{ best_comment.time }}</span>
+                  </div>
+                  <div class="text"> {{ best_comment.comment }} </div>
+                  <div class="actions">
+                        <a class="reply">Reply</a>
+                  </div>
+            </div>
+        </div>
+
+
+    {% endif %}
+
+    <div class="ui divider"></div>
+    {% for comment in article.under_comments.all %}
+        <div class="comment">
+            <a class="avatar">
+                <img src="http://semantic-ui.com/images/avatar/small/matt.jpg">
+            </a>
+            <div class="content">
+                  <a href="#" class="author">{{ comment.name }}</a>
+                  <div class="metadata">
+                        <span class="date">{{ comment.time }}</span>
+                  </div>
+                  <div class="text"> {{ comment.comment }} </div>
+                  <div class="actions">
+                        <a class="reply">Reply</a>
+                  </div>
+            </div>
+        </div>
+    {% endfor %}
+
+<div class="ui divider"></div>
+
+<form class="ui error tiny form" action="{% url 'comment' article.headline_2 %}" method="POST">
+    {% if form.errors %}
+        <div class="ui error message">
+          error:  {{ form.errors }}
+        </div>
+        {% for field in form %}
+        <div class="{{field.errors|yesno:'error, '}} field">
+            {{ field.label }}
+            {{ field }}
+        </div>
+        {% endfor %}
+
+    {% else %}
+        {% for field in form %}
+        <div class="field">
+            {{ field.label }}
+            {{ field }}
+        </div>
+        {% endfor %}
+
+    {% endif %}
+
+    {% csrf_token %}
+
+  <button type='submit' class="ui red labeled submit icon button"><i class="icon edit"></i>提交评论</button>
+</form>
+</div>
+
+
+
+    </div>
+
+
+<!-- right rail -->
+  <div class="ui right internal rail biaoqian">
+      <div class="ui vertical segment" style="width:200px">
+          <h3 class="ui header">热门标签</h3>
+          <i class="ui label">电话诈骗 <i class="detail">214</i></i>
+          <i class="ui label">学校 <i class="detail">214</i></i>
+          <i class="ui label">老人 <i class="detail">214</i></i>
+          <i class="ui label">保健品 <i class="detail">214</i></i>
+          <i class="ui label">电话诈骗 <i class="detail">214</i></i>
+          <i class="ui label">学校 <i class="detail">214</i></i>
+          <i class="ui label">老人 <i class="detail">214</i></i>
+          <i class="ui label">保健品 <i class="detail">214</i></i>
+          <div class="ui divider"></div>
+          <h3 class="ui header">热门话题</h3>
+          <h5 class="ui sub header">这是一个热门话题。。。。</h5>
+          <h5 class="ui sub header">这是一个热门话题。。。。</h5>
+          <h5 class="ui sub header">这是一个热门话题。。。。</h5>
+          <h5 class="ui sub header">这是一个热门话题。。。。</h5>
+          <h5 class="ui sub header">这是一个热门话题。。。。</h5>
+
+      </div>
+  </div>
+</div>
+
+<!-- pager -->
+
+
+
+
+</body>
+
+</html>

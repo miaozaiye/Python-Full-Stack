@@ -1,0 +1,58 @@
+.ui.red.padded.inverted.vertical.segment{
+    position: relative;
+
+}
+
+.ui.vertical.segment.content{
+    width: 60%;
+
+    position: relative;;
+    margin-left:150px;
+    margin-top: 20px;
+
+
+}
+.ui.right.internal.rail.biaoqian{
+    margin-top: 18px;
+    margin-right: -100px;
+    width:20%;
+
+}
+
+.ui.label{
+    margin-top: 5px;
+
+}
+
+.label.one{
+    width:100px;
+
+
+}
+
+.ui.vertical.segment.piece{
+    margin-top: 0px;
+    margin-left:0px;
+    width:90%;
+
+}
+.ui.six.wide.column{
+
+    font-size: 5px;
+    color:rgb(180,180,180);
+
+}
+.ui.active.mini.button.biaoqian{
+    font-size: 1px;
+    background-color:rgb(220,220,220);
+
+
+
+}
+.ui.inverted.red.label{
+    margin-left: 0;
+}
+
+.content>.ui.text.menu{
+  margin:2px;
+}

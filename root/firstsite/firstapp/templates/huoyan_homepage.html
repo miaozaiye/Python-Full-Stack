@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>huoyan</title>
+    <link rel="stylesheet" href={% static "CSS/semantic.css" %} media="screen" title="no title" charset = "utf-8">
+      <link rel="stylesheet" href={% static "huoyan_homepage.css" %} media="screen" title="no title" charset = "utf-8">
+</head>
+
+<body>
+<!-- navigation bar -->
+    <div class="ui red padded inverted vertical segment" style="height:80px">
+        <div class="ui padded text menu" style="margin-top:0px;height:40px">
+<!-- LOGO -->
+            <div class="ui image" style="margin-top:-7px;margin-left:20px">
+                <img src={% static "huoyanlogo.png"%} alt="" >
+            </div>
+<!-- search area -->
+            <div class="ui icon input" style="width:40%;margin-left:20px">
+                <input type="text" placeholder="搜索骗局">
+                <i class="inverted circular search link icon"></i>
+            </div>
+<!-- User information -->
+            <div class="ui red inverted right float menu" >
+                <button class="red ui icon button" style="margin-right:20px">
+                    <a href="huoyan_post.html"><i class="big icon write" style="color:white"></i></a>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- content part -->
+
+<div class="ui vertical segment content">
+
+{#增加排序筛选#}
+
+<div class="ui secondary pointing menu">
+    <a class="active item" href="?order=1">查看数 </a>
+    <a class="item" href = "?pubdate=1">发布时间 </a>
+    <a class="item" href="/editorschoice">Editor's Choice </a>
+
+</div>
+<!-- main-content -->
+
+    <div class="ui vertical segment piece" style="border:white">
+        <div class="ui feed">
+<!-- event -->
+
+            {% for article in article_list %}
+            <div class="event">
+
+                <div class="label">
+                    <i class="ui inverted red label"> <i class="huge caret up icon" style="color:white;margin:0"></i></i>
+                    <i class="ui inverted red label" > <h3 class="ui inverted header">20</h3></i>
+                </div>
+                <div class="content" style="margin-left:30px">
+
+                    <div class="date">{{ article.pub_date }}</div>
+
+                    <div class="ui text menu">
+
+                    <h4 class="ui header" style="margin:5px 0;width:300px">
+                        <a href="{% url 'detail' article.headline_2 %}">{{ article.headline}}</a>
+                    </h4>
+
+
+                      <div class="ui labels" style="margin-left:10px">
+                          <a class="ui label" style="margin:0;font-size:1px" href="?tag={{ article.tag }}">{{ article.tag }} </a>
+
+                      </div>
+
+                  </div>
+
+                    <div class="extra text">
+
+                            <p> {{ article.content|slice:'100'}}<span style="color:silver">
+
+                                <a href="{% url 'detail' article.headline_2 %}"> >>readmore </a>
+                            </span></p>
+
+
+
+                    </div>
+
+                  <div class="ui text menu">
+                      <div class="ui grid" style="margin-left:-1px">
+                          <div class="ui eight wide column">
+
+                              <i class="user icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">{{ article.watchnumber }}</span></i>
+                          </div>
+                          <div class="ui eight wide column">
+                            <i class="heart icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">200</span></i>
+                          </div>
+                      </div>
+
+
+                  </div>
+
+              </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+<h4 class="ui horizontal divider header"><i class="tag icon"></i> 上次看到这 </h4>
+
+<!-- right rail -->
+  <div class="ui right internal rail biaoqian">
+
+      <div class="ui vertical segment" style="width:200px">
+          <h3 class="ui header">热门标签</h3>
+          {% for tag in tag_list %}
+          <i class="ui label">{{ tag.name}} <i class="detail">214</i></i>
+          {% endfor %}
+          <div class="ui divider"></div>
+          <h3 class="ui header">热门话题</h3>
+          {% for topic in topic_list %}
+
+          <h5 class="ui sub header">{{ topic.name }}</h5>
+          {% endfor %}
+
+      </div>
+  </div>
+</div>
+
+<!-- pager -->
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>huoyan</title>
+    <link rel="stylesheet" href={% static "CSS/semantic.css" %} media="screen" title="no title" charset = "utf-8">
+      <link rel="stylesheet" href={% static "huoyan_homepage.css" %} media="screen" title="no title" charset = "utf-8">
+
+  <style type="text/css">
+    body {
+      background-color: white;
+    }
+    body > .grid {
+      height: 100%;
+    }
+    .image {
+      margin-top: -100px;
+    }
+    .column {
+      max-width: 450px;
+    }
+  </style>
+{##}
+</head>
+
+<body>
+
+<!-- navigation bar -->
+    <div class="ui red padded inverted vertical segment" style="height:80px">
+        <div class="ui padded text menu" style="margin-top:0px;height:40px">
+<!-- LOGO -->
+            <div class="ui image" style="margin-top:-7px;margin-left:20px">
+                <img src={% static "huoyanlogo.png"%} alt="" >
+            </div>
+<!-- search area -->
+            <div class="ui icon input" style="width:40%;margin-left:20px">
+                <input type="text" placeholder="搜索骗局">
+                <i class="inverted circular search link icon"></i>
+            </div>
+
+
+        </div>
+
+    </div>
+
+<!-- User login -->
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+
+      <div class="content">
+       注册一个新账号
+      </div>
+    </h2>
+    <form class="ui large form" action="http://127.0.0.1:8000/register/" method="POST">
+
+        {% if form.errors %}
+            <div class="ui error message">
+              error:  {{ form.errors }}
+            </div>
+            {% for field in form %}
+            <div class="{{field.errors|yesno:'error, '}} field">
+                {{ field.label }}
+                {{ field }}
+            </div>
+            {% endfor %}
+
+
+
+        {% else %}
+        {% for field in form %}
+        <div class="field">
+            {{ field.label }}
+            {{ field }}
+        </div>
+        {% endfor %}
+
+        {% endif %}
+      <div class="ui stacked segment">
+{#        <div class="field">#}
+{#          <div class="ui left icon input">#}
+{#            <i class="user icon"></i>#}
+{#            <input type="text" name="username" placeholder="User Name">#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="field">#}
+{#          <div class="ui left icon input">#}
+{#            <i class="lock icon"></i>#}
+{#            <input type="password" name="password1" placeholder="Password">#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <div class="field">#}
+{#          <div class="ui left icon input">#}
+{#            <i class="lock icon"></i>#}
+{#            <input type="password" name="password2" placeholder="Pls. input Password again">#}
+{#          </div>#}
+{##}
+{#        </div>#}
+{##}
+         {% csrf_token %}
+         <button type='submit' class="ui red labeled submit icon button"><i class="icon edit"></i>提交</button>
+      </div>
+{##}
+{#      <div class="ui error message"></div>#}
+{##}
+{#    </form>#}
+
+    <div class="ui message">
+      已经有账号? <a href="/login">登录</a>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+</html>

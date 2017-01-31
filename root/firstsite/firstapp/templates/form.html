@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form</title>
+    <link rel="stylesheet" href={% static "CSS/semantic.css" %} media="screen" title="no title" charset = "utf-8">
+</head>
+<body>
+
+    <div class="ui two column stackable grid container">
+        <div class="column">
+            <div class="ui green segment">
+                <h2 class="ui header">Request-GET</h2>
+
+                <form class="ui form" action="https://proginn.com/search" method="get">
+                    <div class="field">
+                        <label>Keyword</label>
+                        <input type="text" name="keyword" placeholder="请输入查询关键字">
+                     </div>
+
+                    <button class="ui button" type="submit">Submit</button>
+                </form>
+
+                <div class="ui divider"></div>
+
+                  <form class="ui form" action="https://proginn.com/users" method="get">
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "verified" value="1">
+                              <label> 优质开发者 </label>
+                            </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "sort" value="1">
+                              <label> 评价从高到低 </label>
+                            </div>
+
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "sort" value="2">
+                              <label> 价格从高到低 </label>
+                            </div>
+
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "sort" value="6">
+                              <label> 价格从低到高 </label>
+                            </div>
+
+                        </div>
+
+
+                        </div>
+
+
+                    <button class="ui button" type="submit">Submit</button>
+                </form>
+
+
+
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="ui blue segment">
+                <h2 class="ui header">Request-POST</h2>
+
+                <form class="ui form" action="https://proginn.com/search" method="Post">
+                    <div class="field">
+                        <label>Keyword</label>
+                        <input type="text" name="keyword" placeholder="请输入查询关键字">
+                     </div>
+
+                    <button class="ui button" type="submit">Submit</button>
+                </form>
+
+                <div class="ui divider"></div>
+
+                  <form class="ui form" action="https://proginn.com/users" method="post">
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "verified" value="1">
+                              <label> 优质开发者 </label>
+                            </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "sort" value="1">
+                              <label> 评价从高到低 </label>
+                            </div>
+
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "sort" value="2">
+                              <label> 价格从高到低 </label>
+                            </div>
+
+                            <div class="ui radio checkbox">
+                              <input type="radio"  name = "sort" value="6">
+                              <label> 价格从低到高 </label>
+                            </div>
+
+                        </div>
+
+
+                        </div>
+
+
+                    <button class="ui button" type="submit">Submit</button>
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+
+
+</html>
+

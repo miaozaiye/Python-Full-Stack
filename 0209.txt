@@ -1,0 +1,32 @@
+要求：
+使用 manytomany 字段来实现用户收藏的功能，在详情页的下方显示收藏该内容的人的头像和名称，超过 30 个的时候自动的折叠
+
+分析：
+
+1：什么是 manytomany?
+
+ForeignKey,ManyToManyField与OneToOneField分别在Model中定义多对一，多对多，一对一关系.
+投票案例用的是ForeignKey, ManyToOne.
+
+举例：
+我们来假定下面的这些概念、字段和关系：
+
+一个作者有姓，有名及email地址。
+出版商有名称，地址，所在城市、省，国家，网站。
+书籍有书名和出版日期。 它有一个或多个作者（和作者是多对多的关联关系[many-to-many]）， 只有一个出版商（和出版商是一对多的关联关系[one-to-many]，也被称作外键[foreign key]）
+它说，书籍和出版商的关系是一对多，OneToMany（也叫外键，ForeignKey），这个我就觉得没法理解，在我看来，一本书应该只能属于一个出版商，一个出版商可以出多本书。从字面上理解，应该是ManyToOne啊
+
+然后对应到models，The Django Book 是这么写的，只在Book 这个模型中注明了外键
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    authors = models.ManyToManyField(Author)
+    publisher = models.ForeignKey(Publisher)
+    publication_date = models.DateField()
+
+2: 用户收藏功能
+
+两个状态：收藏/未收藏。
+默认状态：未收藏
+收藏状态的路径只有一个：未收藏状态下，点击收藏图标，变为收藏状态。
+未收藏状态路径有两个：初始状态；已收藏状态下，点击收藏图标取消收藏，变为未收藏状态。

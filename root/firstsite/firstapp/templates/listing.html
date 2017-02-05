@@ -156,11 +156,12 @@
                         <a href="{% url 'detail' article.headline_2 %}">{{ article.headline}}</a>
                     </h4>
 
-
+                    {% for tag in article.tag.all %}
                       <div class="ui labels" style="margin-left:10px">
-                          <a class="ui label" style="margin:0;font-size:1px" href="?tag={{ article.tag }}">{{ article.tag }} </a>
+                          <a class="ui label" style="margin:0;font-size:1px" href="http://127.0.0.1:8000/list/tag/{{ tag }}">{{ tag }} </a>
 
                       </div>
+                    {% endfor %}
 
                   </div>
 

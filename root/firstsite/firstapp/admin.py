@@ -1,5 +1,5 @@
 from django.contrib import admin
-from firstapp.models import People,Article,Topics,Tag,invalid_list,Comment,UserProfile,Ticket
+from firstapp.models import People,Article,Topics,Tag,invalid_list,Comment,UserProfile,Ticket,Ilike
 
 
 # Register your models here.
@@ -12,3 +12,4 @@ admin.site.register(Tag)
 admin.site.register(invalid_list)
 admin.site.register(UserProfile)
 admin.site.register(Ticket)
+admin.site.register(Ilike)

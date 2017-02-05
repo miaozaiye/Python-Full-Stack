@@ -15,9 +15,9 @@
     <div class="ui red padded inverted vertical segment" style="height:80px">
         <div class="ui padded text menu" style="margin-top:0px;height:40px">
 <!-- LOGO -->
-            <div class="ui image" style="margin-top:-7px;margin-left:20px" >
-                <a href="http://127.0.0.1:8000/index">
-                    <img src={% static "huoyanlogo.png" %} alt="" >
+            <div class="ui image" style="margin-top:-7px;margin-left:20px">
+                <a href="http://127.0.0.1:8000/list/">
+                    <img src={% static "huoyanlogo.png"%} alt="" >
                 </a>
             </div>
 <!-- search area -->
@@ -27,15 +27,43 @@
             </div>
 <!-- User information -->
             <div class="ui red inverted right float menu" >
-                <button class="circular red ui icon button" style="margin-right:20px">
-                    <i class="big icon settings"></i>
-                </button>
+                {% if request.user.is_authenticated %}
+                    <div class="item">
+                        <h5 class="ui inverted header">
+                            <span style="margin-right:20px">{{ request.user.username }}</span>
+                            <div class="ui mini circular image">
+                                {% if request.user.profile.profile_image %}
+                                    <img src="/upload/{{ request.user.profile.profile_image }}" alt="">
+                                {% else %}
+                                    <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg" alt="">
+                                {% endif %}
+                            </div>
+                            <a href="/register">
+                                <span style="margin-right:20px;margin-left:20px">登出</span>
+                            </a>
+
+                        </h5>
+
+                    </div>
+
+                {% else %}
+                     <div class="item" class = "ui rounded item">
+                     <a href="http://127.0.0.1:8000/login/">
+                        <h5 class="ui inverted header">
+                            <span style="margin-right:20px;color:white">登录/注册</span>
+
+                        </h5>
+                     </a>
+
+                    </div>
+
+                {% endif %}
+
             </div>
 
         </div>
 
     </div>
-
 <!-- content part -->
 
 <div class="ui vertical segment content">
@@ -60,13 +88,12 @@
 
                     <h4 class="ui header" style="margin:5px 0;width:300px">{{ article.headline }}</h4>
 
-
+                        {% for tag in article.tag.all %}
                       <div class="ui labels" style="margin-left:10px">
+                          <a class="ui label" style="margin:0;font-size:1px" href="http://127.0.0.1:8000/list/tag/{{ tag }}">{{ tag }} </a>
 
-                          <a class="ui label" style="margin:0;font-size:1px">电话诈骗 </a>
-                          <a class="ui label" style="margin:0;font-size:2px">学生 </a>
-                          <a class="ui label" style="margin:0;font-size:2px">信用卡 </a>
                       </div>
+                    {% endfor %}
 
                   </div>
 
@@ -80,8 +107,27 @@
 
                               <i class="user icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">200</span></i>
                           </div>
+
+                          <!--收藏按钮判断逻辑及展示-->
                           <div class="ui eight wide column">
-                            <i class="heart icon" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">200</span></i>
+
+                            <form class = "ui form" action = "{% url 'detail_ilike' article.headline_2 %}" method="post">
+                            {% csrf_token %}
+
+
+                            {% if user_ilike.choice == 'like' %}
+
+                                <button class="ui red tiny button"  type="submit" name = "likevote" value = "None"   >
+                                    <i class="heart icon" style="font-size:2px;width:8px;color:white"><span style="margin-left:4px">{{ilike_count}}</span></i>
+                                </button>
+                            {% else %}
+                                 <button class="ui tiny button"  type="submit" name = "likevote" value = "like"   >
+                                    <i class="heart icon" type="submit" name = "likevote" value = "like" style="font-size:2px;width:8px;color:rgb(150,150,150)"><span style="margin-left:4px">{{ilike_count}}</span></i>
+                                 </button>
+                             {% endif %}
+
+                            </form>
+
                           </div>
                       </div>
               <div class="right floated menu">
@@ -99,7 +145,7 @@
 
 
                       <button class="ui tiny button" type="submit" name = "vote" value = "dislike" >
-                         <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px"></i>
+                         <i class="big caret down icon" style="color:white"></i>
 
 
                       </button>
@@ -107,14 +153,14 @@
                 {% elif user_ticket.choice == 'dislike'%}
 
                     <button class="ui tiny button" type="submit" name = "vote" value = "like" style="width: 40px;height:30px; ">
-                        <i class="big caret up icon" style="color:white;margin:0">UP!</i>
+                        <i class="big caret up icon" style="color:white;margin:0"></i>
 
                     </button>
 
 
 
                     <button class="ui red tiny button" type="submit" name = "vote" value = "normal" style="width: 40px;height:30px; ">
-                     <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px">DOWN!</i>
+                     <i class="big caret down icon" style="color:white"></i>
 
                     </button>
 
@@ -126,7 +172,7 @@
                     </button>
 
                     <button class="ui tiny button" type="submit" name = "vote" value = "dislike" style="width: 40px;height:30px; ">
-                     <i class="big caret down icon" style="color:white;margin-bottom: 50px;margin-right:50px"></i>
+                     <i class="big caret down icon" style="color:white"></i>
 
                     </button>
                 {% endif %}

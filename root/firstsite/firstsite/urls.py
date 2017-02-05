@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from firstapp.views import index,form,detail,detail_comment,listing,index_login,index_register,detail_vote
+from firstapp.views import index,form,detail,detail_comment,listing,index_login,index_register,detail_vote,listingTag,detail_ilike
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import logout
@@ -27,11 +27,13 @@ urlpatterns = [
     url(r'^logout/$', logout,{'next_page':'/register'},name = 'logout'),
     url(r'^index/$',index,name='index'),
     url(r'^form',form,name='form'),
-    url(r'^detail/(?P<head_line>\w+[\-\w+]*)$',detail,name='detail'),
     url(r'^detail/(?P<head_line>\w+[\-\w+]*)/comment$',detail_comment,name='comment'),
     url(r'^detail/vote/(?P<head_line>\w+[\-\w+]*)$',detail_vote,name='detail_vote'),
+    url(r'^article/ilike/(?P<head_line>\w+[\-\w+]*)$',detail_ilike,name='detail_ilike'),
     url(r'^detail/(?P<id>\d+)/comment$',detail_comment,name='comment'),
+    url(r'^detail/(?P<head_line>\w+[\-\w+]*)$',detail,name='detail'),
     url(r'^list/$',listing,name='listing'),
+    url(r'^list/tag/(?P<tag>\w+)$',listingTag,name ='listingTag'),
     url(r'^list/(?P<cate>\w+)$',listing,name ='listing'),
 
 

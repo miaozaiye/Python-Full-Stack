@@ -66,7 +66,16 @@
                     <div class="ui text menu">
 
                     <h4 class="ui header" style="margin:5px 0;width:300px">
-                        <a href="{% url 'detail' article.headline_2 %}">{{ article.headline}}</a>
+                        <!--如果没有登录，则跳转到登录页面；如果已经登录，则跳转到detail 页面-->
+                        {% if request.user.username%}
+
+                            <a href="{% url 'detail' article.headline_2 %}">{{ article.headline}}</a>
+
+                        {% else %}
+
+                            <a href="{% url 'login' %}">{{ article.headline}}</a>
+
+                        {% endif %}
                     </h4>
 
 

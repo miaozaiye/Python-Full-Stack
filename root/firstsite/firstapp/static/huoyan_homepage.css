@@ -56,3 +56,14 @@
 .content>.ui.text.menu{
   margin:2px;
 }
+
+.ui.personalpage.container{
+    width: 200px;
+    color:rgb(eee);
+    position: relative;;
+    margin-left:100px;
+    margin-top: 100px;
+    padding: 50px;
+
+
+}

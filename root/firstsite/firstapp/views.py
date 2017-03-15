@@ -1,13 +1,13 @@
 
 from django.shortcuts import render,redirect,HttpResponse,Http404
-from firstapp.models import People,Article,Topics,Tag,Comment,Ticket,Ilike
+from firstapp.models import People,Article,Topics,Tag,Comment,Ticket,Ilike,User,UserProfile
 from django.template import Context,Template
 from django import forms
 from firstapp.form import CommentForm
 from firstapp.aheadline import trans_headline
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib.auth import authenticate,login
-from firstapp.form import LoginForm
+from firstapp.form import LoginForm,personalform
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.core.exceptions import ObjectDoesNotExist,FieldDoesNotExist
 
@@ -284,3 +284,47 @@ def index_register(request):
     context['form']=form
 
     return render(request,'register.html',context)
+
+def personal_page(request):
+    user = request.user
+    context = {}
+    print ('profile is:',request.user.profile.id)
+    context['user'] = user
+
+    return render(request,'personal_page.html',context)
+
+def renew(request):
+    #先整理装载好提交的内容
+    # 判断如果上传的文件中有文件，则赋值给image
+    if 'file' in request.FILES:
+        new_image = request.FILES['file']
+    else:
+        new_image = None
+
+
+    form1 = personalform(request.POST) #将表单提交的字符等内容储存到form1
+    new_username = form1['username'].value() #取得提交更改的 username
+    new_userpassword = form1['password'].value() #取得提交更改的 password 内容
+    user = request.user
+    userprofile = request.user.profile
+
+    user1 = User.objects.get(username = request.user) #获得目前登录的User对象
+    userprofile1 = UserProfile(belong_to = request.user) #获得该用户的User profile 对象
+
+    #将提交的信息更新到user, 以及 user profile 中。
+    user1.username = new_username
+    user1.password = new_userpassword
+    userprofile1.belong_to = user1
+    userprofile1.profile_image = new_image
+
+    print('userprofile1.belong_to is:',userprofile1.belong_to)
+
+    user1.save()
+    userprofile1.save()
+
+    context = {}
+
+    context['user'] = user1
+    context['userprofile']=userprofile1
+    # context['userprofile'] = userprofile
+    return render(request,'personal_page.html',context)

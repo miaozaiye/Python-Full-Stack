@@ -31,3 +31,8 @@ class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField()
 
+
+class personalform(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField()
+    image = forms.ImageField(required=False)

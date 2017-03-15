@@ -59,7 +59,7 @@
 
         {% if form.errors %}
             <div class="ui error message">
-              error:  {{ form.errors }}
+              error:  {{ form.errorlist }}
             </div>
             {% for field in form %}
             <div class="{{field.errors|yesno:'error, '}} field">

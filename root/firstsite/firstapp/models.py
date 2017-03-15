@@ -41,9 +41,14 @@ class Topics(models.Model):
         return self.name
 
 
+class UserProfile(models.Model):
+
+    belong_to = models.OneToOneField(to = User,related_name='profile')
+    profile_image = models.FileField(upload_to='profile_image')
+
 
 class Comment(models.Model):
-    speaker = models.ForeignKey('UserProfile')
+    name = models.CharField(null=True,blank=True,max_length=20)
     comment = models.CharField(null=True,blank=True,max_length=200)
     time = models.DateField(default=datetime.datetime.now())
     belong_to = models.ForeignKey(to = Article,related_name ='under_comments',null=True,blank=True )
@@ -55,12 +60,6 @@ class invalid_list(models.Model):
     name =models.CharField(null=True,blank=True,max_length=50)
     def __str__(self):
         return self.name
-
-
-class UserProfile(models.Model):
-
-    belong_to = models.OneToOneField(to = User,related_name='profile')
-    profile_image = models.FileField(upload_to='profile_image')
 
 
 
@@ -89,4 +88,5 @@ class Ilike(models.Model):
 
     def _str_(self):
         return str(self.id)
+
 

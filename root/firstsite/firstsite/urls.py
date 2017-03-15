@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from firstapp.views import index,form,detail,detail_comment,listing,index_login,index_register,detail_vote,listingTag,detail_ilike
+from firstapp.views import index,form,detail,detail_comment,listing,index_login,index_register,detail_vote,listingTag,detail_ilike,personal_page,renew
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import logout
@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'^list/$',listing,name='listing'),
     url(r'^list/tag/(?P<tag>\w+)$',listingTag,name ='listingTag'),
     url(r'^list/(?P<cate>\w+)$',listing,name ='listing'),
+    url(r'^personal_page/$', personal_page,name = 'personal_page'),
+    url(r'^personal_page/renew/$', renew,name = 'renew'),
 
 
 ]
